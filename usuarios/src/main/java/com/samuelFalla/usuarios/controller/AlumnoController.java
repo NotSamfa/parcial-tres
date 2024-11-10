@@ -1,44 +1,34 @@
 package com.samuelFalla.usuarios.controller;
 
+import com.samuelFalla.commons.controller.CommonController;
 import com.samuelFalla.usuarios.service.AlumnoService;
+import com.samuelFalla.usuarios.service.serviceImplementation.AlumnoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.samuelFalla.usuarios.model.Alumno;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-public class AlumnoController {
+public class AlumnoController extends CommonController<Alumno, AlumnoService>{
 
     @Autowired
-    AlumnoService service;
+    AlumnoServiceImpl service;
 
-    @GetMapping
-    public ResponseEntity<?> getAll() {
+    @Value("${config.balanceador.test}")
+    private String  balanceadorTest;
 
-        return ResponseEntity.ok(service.findAll());
-    }
+    @GetMapping("/balanceador-test")
+    public ResponseEntity<?> balanceadorTest() {
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("balanceador", balanceadorTest);
+        response.put("alumno", service.findAll());
 
-    @GetMapping("/")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-
-        Optional <Alumno> ob = service.findById(id);
-
-        if (ob.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok().body(ob.get());
-    }
-
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Alumno alumno) {
-
-        Alumno alumnoDb = service.save(alumno);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(alumnoDb);
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/{id}")
@@ -59,10 +49,4 @@ public class AlumnoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(alumno));
     }
 
-    @DeleteMapping
-    private ResponseEntity<?> delete(@PathVariable Long id) {
-
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
 }
