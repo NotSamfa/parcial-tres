@@ -1,20 +1,20 @@
 package com.samuelFalla.usuarios.controller;
 
+import com.samuelFalla.common.model.Alumno;
 import com.samuelFalla.commons.controller.CommonController;
-import com.samuelFalla.usuarios.service.AlumnoService;
 import com.samuelFalla.usuarios.service.serviceImplementation.AlumnoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.samuelFalla.usuarios.model.Alumno;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
-public class AlumnoController extends CommonController<Alumno, AlumnoService>{
+public class AlumnoController extends CommonController<Alumno, AlumnoServiceImpl>{
 
     @Autowired
     AlumnoServiceImpl service;
