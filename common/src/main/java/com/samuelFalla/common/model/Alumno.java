@@ -1,4 +1,4 @@
-package com.samuelFalla.usuarios.model;
+package com.samuelFalla.common.model;
 
 import jakarta.persistence.*;
 import lombok.*;
